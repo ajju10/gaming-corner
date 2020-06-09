@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Create New Tournament
+{% endblock %}
+
+{% block content %}
+    <form action="{% url 'organize_tournament' %}" method="post" class="post-form" name="new_tournament">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="validationDefault01">Tournament Name (max. 30 characters)</label>
+            <input type="text" class="form-control" id="validationDefault01" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="validationDefault03">Game Discipline</label>
+            <input type="search" class="form-control" id="validationDefault03" placeholder="Select a discipline"
+                   name="discipline" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Description (max. 500 characters)</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description" required></textarea>
+        </div>
+        <div class="form-row">
+            <div class="col-md-3 mb-3">
+                <label for="validationDefault05">Size</label>
+                <input type="number" class="form-control" id="validationDefault05" name="size" required>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="form-label">
+                    <label for="inlineRadioOptions">Participants</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                           value="option1" required>
+                    <label class="form-check-label" for="inlineRadio1">Player</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                           value="option2" required>
+                    <label class="form-check-label" for="inlineRadio2">Team</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
+                <label class="form-check-label" for="invalidCheck2">
+                    Agree to terms and conditions
+                </label>
+            </div>
+        </div>
+        <button class="btn btn-danger" type="submit">Create</button>
+    </form>
+
+{% endblock %}

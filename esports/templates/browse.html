@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Browse-Tournaments
+{% endblock %}
+
+{% block content %}
+    {% if query %}
+        {% for i in query %}
+            <a href="{% url 'about' %}">{{ i }}</a><br/>
+        {% endfor %}
+    {% else %}
+        <div class="py-5">
+            <div class="container">
+                <div class="row hidden-md-up">
+                    {% for tournament in tournaments %}
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-block">
+                                    <h4 class="card-title">{{ tournament }}</h4>
+                                    <img src="{% static 'images/pubgsmall.jpg' %}" alt="Pubg" height="300p"
+                                         width="decice-width">
+                                    <p class="card-text p-y-1">{{ tournament.description }}</p>
+                                    <a href="{{ tournament.description }}" class="card-link">Details</a>
+                                    <a href="" class="card-link">Register Now</a>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
