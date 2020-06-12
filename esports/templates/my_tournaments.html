@@ -6,28 +6,16 @@
 {% endblock %}
 
 {% block content %}
-    {% if tournaments %}
-        <div class="py-5">
-            <div class="container">
-                <div class="row hidden-md-up">
-                    {% for tournament in tournaments %}
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-block">
-                                    <h5 class="card-title">{{ tournament }}</h5>
-                                    <img src="{% static 'images/pubgsmall.jpg' %}" alt="Pubg" height="300p"
-                                         width="device-width">
-                                    <p class="card-text p-y-1">{{ tournament.description }}</p>
-                                    <a href="" class="card-link">Details</a>
-                                    <a href="" class="card-link">Register Now</a>
-                                    <a href="{% url 'delete' tournament.id %}" class="card-link">Delete</a>
-                                </div>
-                            </div>
-                            <br>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
+    {% if user.is_authenticated %}
+        <h3>Hello {{ user }}</h3><br/>
+
+        {% if tournaments %}
+            {% for tournament in tournaments %}
+                <li>{{ tournament }} <a href="{% url 'delete' tournament.id %}">Delete</a></li><br/>
+            {% endfor %}
+        {% else %}
+            <h2>You haven't organised any tournament yet.</h2><br/>
+            <h4><a href="{% url 'organize_tournament' %}">Organize</a> your first tournament.</h4>
+        {% endif %}
     {% endif %}
 {% endblock %}
