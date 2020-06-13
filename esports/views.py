@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.http import Http404
 from django.shortcuts import render, redirect
 
 from .forms import OrganizeTournamentForm
@@ -49,9 +49,14 @@ def browse(request):
         tournament_name = request.POST['game_name']
         try:
             query = Tournament.objects.filter(name__icontains=tournament_name)
-        except Exception as e:
-            query = "Error"
+        except Http404:
+            query = "Not such tournament found"
         return render(request, 'browse.html', {'query': query})
     else:
         tournaments = Tournament.objects.all()
         return render(request, 'browse.html', {'tournaments': tournaments})
+
+
+def register(request, tournament_id):
+    tournament = Tournament.objects.get(pk=tournament_id)
+    return render(request, 'register.html', {'tournament': tournament})
