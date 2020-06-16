@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block title %}
-    Home
+    Gaming Corner
 {% endblock %}
 
 {% block content %}
@@ -14,10 +13,14 @@
                     <h1 class="mb-5">Start playing, organizing and participating in esports tournaments all in one
                         place.</h1>
                 </div>
-                <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-                    <a class="btn btn-outline-success" role="button" href="{% url 'account_login' %}">Get Started</a>
-                </div>
             </div>
+            {% if user.is_authenticated %}
+            {% else %}
+                <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+                    <a class="btn btn-outline-success" role="button" href="{% url 'account_signup' %}">Get
+                        Started</a>
+                </div>
+            {% endif %}
         </div>
     </header>
 {% endblock %}

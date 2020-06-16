@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Create New Tournament
+    Gaming Corner - Create New Tournament
 {% endblock %}
 
 {% block content %}
+
     <form action="{% url 'organize_tournament' %}" method="post" class="post-form" name="new_tournament">
         {% csrf_token %}
         <div class="form-group">
@@ -18,7 +19,8 @@
         </div>
         <div class="form-group">
             <label for="exampleFormControlTextarea1">Description (max. 500 characters)</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description" required></textarea>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description"
+                      required></textarea>
         </div>
         <div class="form-row">
             <div class="col-md-3 mb-3">
@@ -27,17 +29,12 @@
             </div>
             <div class="col-md-3 mb-3">
                 <div class="form-label">
-                    <label for="inlineRadioOptions">Participants</label>
+                    <label for="inlineRadioOptions">Participants (Solo by default)</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="is_team" id="inlineRadio1"
-                           value="option1" required>
-                    <label class="form-check-label" for="inlineRadio1">Player</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="is_team" id="inlineRadio2"
-                           value="option2" required>
-                    <label class="form-check-label" for="inlineRadio2">Team</label>
+                    <input class="form-check-input" type="checkbox" name="is_team" id="inlineRadio1"
+                           value="option1">
+                    <label class="form-check-label" for="inlineRadio1">Squad</label>
                 </div>
             </div>
         </div>
@@ -51,4 +48,5 @@
         </div>
         <button class="btn btn-danger" type="submit">Create</button>
     </form>
+
 {% endblock %}

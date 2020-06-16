@@ -1,40 +1,55 @@
 {% extends 'account/base.html' %}
+{% load static %}
 {% load account socialaccount %}
 {% load i18n %}
 
 {% block title %}
-    Sign In
+    Gaming Corner - Sign In
 {% endblock %}
 
 {% block content %}
 
-    {% get_providers as socialaccount_providers %}
+    <div class="container" id="loginContainer">
 
-    {% if socialaccount_providers %}
-        <h3>Please sign in with one of your third-party social account</h3>
-        <div class="socialaccount_ballot">
-            <ul class="socialaccount_providers">
-                {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+        {% get_providers as socialaccount_providers %}
 
-            </ul>
-        </div>
-    {% endif %}
+        {% if socialaccount_providers %}
+            <h3>Please sign in with one of your third-party social account</h3>
+            <br/>
+            <div class="socialaccount_ballot">
+                <ul class="socialaccount_providers">
+                    <li id="google_login"><a href="{% provider_login_url "google" %}">Google</a></li>
+                    <li id="facebook_login"><a href="{% provider_login_url "facebook" %}">Facebook Connect</a></li>
+                </ul>
+            </div>
+        {% endif %}
 
-    <form method="post" action="{% url 'account_login' %}">
-        {% csrf_token %}
-        <h2 class="sr-only">Login Form</h2>
-        <div class="illustration"><i class="icon ion-ios-locked-outline"></i></div>
-        <div class="form-group"><input class="form-control" type="email" name="login" placeholder="Email"
-                                       required/></div>
-        <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password"
-                                       required/>
-        </div>
-        <div class="form-group">
-            <button class="btn btn-outline-success" type="submit">Log In</button>
-        </div>
-        <a class="forgot" href="{% url 'account_reset_password' %}">Forgot Password?</a>
-    </form>
-    <br/>
+        <h6>{% trans 'or' %}</h6>
 
-    <h4>New to Gaming Corner? <a href="{% url 'account_signup' %}">Sign Up</a> to continue.</h4>
+        <form method="post" action="{% url 'account_login' %}">
+            {% csrf_token %}
+            <h2 class="sr-only">Login Form</h2>
+            <div class="illustration"><i class="icon ion-ios-locked-outline"></i></div>
+            <div class="form-group"><label for="id_emailInput"></label>
+                <input class="form-control" id="id_emailInput" type="text" name="login" placeholder="Username or Email"
+                       required/></div>
+            <div class="form-group">
+                <label for="id_passwordInput"></label>
+                <input class="form-control" id="id_passwordInput" type="password" name="password" placeholder="Password"
+                       required/>
+            </div>
+            {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+            {% endif %}
+            <div class="form-group">
+                <button class="btn btn-outline-success" type="submit">Sign In</button>
+            </div>
+            <a class="forgot" href="{% url 'account_reset_password' %}">Forgot Password?</a>
+        </form>
+        <br/>
+
+        <h5>{% blocktrans %}New to Gaming Corner? <a href="{{ signup_url }}">Sign Up
+        </a> to continue.{% endblocktrans %}</h5>
+    </div>
+
 {% endblock %}

@@ -15,7 +15,7 @@ def about(request):
     return render(request, 'about.html', {})
 
 
-@login_required()
+@login_required
 def organize_new(request):
     if request.method == "POST":
         form = OrganizeTournamentForm(request.POST or None)
@@ -31,12 +31,13 @@ def organize_new(request):
     return render(request, 'organize_new.html', {'form': form, })
 
 
-@login_required()
+@login_required
 def my_tournaments(request):
     tournaments = Tournament.objects.filter(organizer=request.user)
     return render(request, 'my_tournaments.html', {'tournaments': tournaments})
 
 
+@login_required
 def delete(request, tournament_id):
     tournament = Tournament.objects.get(pk=tournament_id)
     tournament.delete()
@@ -57,6 +58,7 @@ def browse(request):
         return render(request, 'browse.html', {'tournaments': tournaments})
 
 
+@login_required
 def register(request, tournament_id):
     tournament = Tournament.objects.get(pk=tournament_id)
     return render(request, 'register.html', {'tournament': tournament})

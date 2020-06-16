@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    Browse-Tournaments
+    Gaming Corner - Browse
 {% endblock %}
 
 {% block content %}
@@ -33,9 +33,12 @@
                     <img src="{% static 'images/pubgblack.jpg' %}" alt="pubg">
                     <div class="card-body">
                         <h5 class="card-title">{{ tournament }}</h5>
-                        <p class="card-text">{{ tournament.description }}</p>
+                        {% if tournament.is_team is not False %}
+                            Teams: {{ tournament.size }}
+                        {% else %}
+                            Players: {{ tournament.size }}
+                        {% endif %}
                         <p>Created at: {{ tournament.date_time }}</p>
-                        <p>Organized by: {{ tournament.organizer }}</p>
                         <a href="{% url 'register' tournament.id %}" class="btn btn-outline-primary">Register</a>
                     </div>
                 </div>
