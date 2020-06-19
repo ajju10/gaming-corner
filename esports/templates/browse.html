@@ -20,33 +20,37 @@
             <h1>Not Such Tournament Exists</h1>
         {% else %}
             {% for i in query %}
-                <a href="{% url 'about' %}">{{ i }}</a><br/>
+                <li><a href="{% url 'details' i.id %}">{{ i }}</a></li><br/>
             {% endfor %}
         {% endif %}
     {% else %}
-        {% if user.is_authenticated %}
-            <strong>Hello {{ user.username }}</strong>
-        {% endif %}<br/><br/>
-        <div class="card-deck">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Discipline</th>
+                <th scope="col">Slots</th>
+                <th scope="col">Details</th>
+            </tr>
+            </thead>
+            <tbody>
             {% for tournament in tournaments %}
-                <div class="card" style="width: 18rem;">
-                    <img src="{% static 'images/pubgblack.jpg' %}" alt="pubg">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ tournament }}</h5>
-                        {% if tournament.is_team is not False %}
-                            Teams: {{ tournament.size }}
+                <tr>
+                    <th scope="row">{{ tournament.name }}</th>
+                    <td>{{ tournament.discipline }}</td>
+                    <td>
+                        {% if tournament.is_team is False %}
+                            {{ tournament.size }} Players
                         {% else %}
-                            Players: {{ tournament.size }}
+                            {{ tournament.size }} Teams
                         {% endif %}
-                        <p>Created at: {{ tournament.date_time }}</p>
-                        <a href="{% url 'register' tournament.id %}" class="btn btn-outline-primary">Register</a>
-                    </div>
-                </div>
-                {% if forloop.counter|divisibleby:"4" %}
-                    </div><br/>
-                    <div class="card-deck">
-                {% endif %}
+                    </td>
+                    <td><a href="{% url 'details' tournament.id %}" id="goArrow">
+                        <img src="https://img.icons8.com/fluent/35/000000/right.png" alt="goicon"/>
+                    </a></td>
+                </tr>
             {% endfor %}
-            </div>
+            </tbody>
+        </table>
     {% endif %}
 {% endblock %}

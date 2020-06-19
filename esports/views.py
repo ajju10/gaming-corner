@@ -49,7 +49,7 @@ def browse(request):
     if request.method == 'POST':
         tournament_name = request.POST['game_name']
         try:
-            query = Tournament.objects.filter(name__icontains=tournament_name)
+            query = Tournament.objects.filter(discipline__icontains=tournament_name)
         except Http404:
             query = "Not such tournament found"
         return render(request, 'browse.html', {'query': query})
@@ -59,6 +59,6 @@ def browse(request):
 
 
 @login_required
-def register(request, tournament_id):
+def details(request, tournament_id):
     tournament = Tournament.objects.get(pk=tournament_id)
-    return render(request, 'register.html', {'tournament': tournament})
+    return render(request, 'details.html', {'tournament': tournament})

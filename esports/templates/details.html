@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}
+    Gaming Corner - Tournament Details
+{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+
+        <div class="container">
+            <div class="select2-container">
+                <h1>{{ tournament.name }}</h1><br/>
+            </div>
+            <h2>Description</h2>
+            <div class="card">
+                <div class="card-body" id="detailDescription">
+                    <p>{{ tournament.description }}</p>
+                </div>
+            </div>
+            <br/>
+            <div class="row1">
+                <h2>Total Slots</h2>
+                {% if tournament.is_team is not False %}
+                    <h5>{{ tournament.size }} Teams</h5>
+                {% else %}
+                    <h5>{{ tournament.size }} Players</h5>
+                {% endif %}
+            </div>
+            <br/>
+            <div class="button">
+                <a class="btn btn-outline-success" id="joinButton" href="#" role="button">Join (Locked in Beta)</a>
+            </div>
+        </div>
+    {% else %}
+        <h3>You must <a href="{% url 'account_login' %}">Sign In</a> first</h3>
+    {% endif %}
+
+{% endblock %}
