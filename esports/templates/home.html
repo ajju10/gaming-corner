@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
     Gaming Corner
@@ -21,5 +22,18 @@
                 </div>
             {% endif %}
         </div>
-    </header>
+    </header><br/><br/>
+
+    <div class="container">
+        <h4 class="text-white" align="center">Find tournaments to participate in.</h4><br/><br/>
+        <a id="homeBrowseButton" class="btn btn-outline-success" href="{% url 'browse' %}" role="button">
+            Browse </a><br/><br/>
+        <img id="homeImage" src="{% static 'images/825336.jpg' %}" alt="pubg">
+    </div><br/><br/>
+
+    <footer>
+        <div class="container">
+            <div class="small text-center text-muted">Copyright &copy; 2020 - Gaming Corner</div>
+        </div>
+    </footer>
 {% endblock %}
