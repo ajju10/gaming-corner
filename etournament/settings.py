@@ -17,9 +17,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '*h*=rf(wh_g-xod_^9ija)iws#$@cj&q8)@4g&h^nx(!+3xw61'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['gamingcorner.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
