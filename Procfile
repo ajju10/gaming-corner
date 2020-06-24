@@ -1,0 +1,1 @@
+web: gunicorn etournament.wsgi

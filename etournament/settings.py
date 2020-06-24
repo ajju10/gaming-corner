@@ -1,4 +1,11 @@
 import os
+import django_heroku
+import dj_database_url
+from decouple import config
+from dotenv import load_dotenv
+
+project_file = os.path.expanduser('~/etournament')
+load_dotenv(os.path.join(project_file, '.env'))
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -7,7 +14,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '*h*=rf(wh_g-xod_^9ija)iws#$@cj&q8)@4g&h^nx(!+3xw61'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,6 +46,7 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 LOGIN_REDIRECT_URL = '/'
+
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 
 ACCOUNT_EMAIL_REQUIRED = True
@@ -57,15 +65,15 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# EMAIL_USE_TLS = True
-#
-# EMAIL_HOST = 'smtp.gmail.com'
-#
-# EMAIL_HOST_USER = ''
-#
-# EMAIL_HOST_PASSWORD = ''
-#
-# EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST = 'smtp.gmail.com'
+
+EMAIL_HOST_USER = 'yajay1257@gmail.com'
+
+EMAIL_HOST_PASSWORD = os.getenv("email_password")
+
+EMAIL_PORT = 587
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -75,6 +83,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'etournament.urls'
@@ -111,8 +120,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'gamer',
-        'USER': 'postgres',
-        'PASSWORD': 'superuser',
+        'USER': os.getenv("db_user"),
+        'PASSWORD': os.getenv("db_password"),
         'HOST': 'localhost'
     }
 }
@@ -140,7 +149,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -152,6 +161,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'esports/static')
+]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 SOCIAL_ACCOUNT_PROVIDERS = {
     'facebook': {
@@ -177,3 +192,5 @@ SOCIAL_ACCOUNT_PROVIDERS = {
         }
     }
 }
+
+django_heroku.settings(locals())
