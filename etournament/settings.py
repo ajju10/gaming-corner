@@ -14,7 +14,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '*h*=rf(wh_g-xod_^9ija)iws#$@cj&q8)@4g&h^nx(!+3xw61'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -122,7 +122,7 @@ DATABASES = {
         'NAME': 'gamer',
         'USER': os.getenv("db_user"),
         'PASSWORD': os.getenv("db_password"),
-        'HOST': 'localhost'
+        'HOST': 'localhost',
     }
 }
 
@@ -161,10 +161,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'esports/static')
-]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
