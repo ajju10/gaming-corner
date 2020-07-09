@@ -6,20 +6,19 @@
 {% endblock %}
 
 {% block content %}
-    <form class="form-inline mr-auto" action="{% url 'browse' %}" method="post">
-        {% csrf_token %}
+    <form class="form-inline mr-auto" action="{% url 'browse' %}" method="get">
         <div class="form-group">
             <input class="form-control mr-sm-2" type="search" placeholder="Search Game" aria-label="Search"
-                   name="game_name">
+                   name="q">
         </div>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
     <br/><br/>
-    {% if query %}
-        {% if query == "Error" %}
+    {% if queryset_list %}
+        {% if queryset_list == "Error" %}
             <h1>Not Such Tournament Exists</h1>
         {% else %}
-            {% for i in query %}
+            {% for i in queryset_list %}
                 <li><a href="{% url 'details' i.id %}">{{ i }}</a></li><br/>
             {% endfor %}
         {% endif %}

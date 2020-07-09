@@ -33,7 +33,7 @@
             </div>
             <br/>
             <div class="button">
-                <a class="btn btn-outline-success" id="joinButton" href="#" role="button">Join (Locked in Beta)</a>
+                <a class="btn btn-outline-success" id="joinButton" href="{% url 'join' tournament.id %}" role="button">Join</a>
             </div>
         </div>
     {% else %}

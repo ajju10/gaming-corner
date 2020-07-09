@@ -8,12 +8,14 @@
 {% block content %}
     {% if user.is_authenticated %}
         <h1>Your Tournaments</h1><br/>
-        {% if tournaments %}
-            {% for tournament in tournaments %}
+        {% if organized_tournaments %}
+            <h2>Organized Tournaments</h2>
+            {% for tournament in organized_tournaments %}
                 <ul class="list-group">
                     <li class="list-group-item list-group-item-secondary">
                         <h5>{{ tournament }}</h5>
-                        <p>Created On: {{ tournament.date_time }}</p>
+                        <p>Created On: {{ tournament.start_time }}</p>
+                        <p>Registration open till {{ tournament.end_time }}</p>
                         <span><a class="btn btn-outline-danger" role="button" href="{% url 'delete' tournament.id %}">
                             Remove
                         </a> </span>
@@ -23,6 +25,17 @@
         {% else %}
             <h2>You haven't organised any tournament yet.</h2><br/>
             <h4><a href="{% url 'organize_tournament' %}">Organize</a> your first tournament.</h4>
+        {% endif %}
+
+        {% if participated_tournaments %}
+            <h2>Participated Tournaments</h2>
+            {% for tournament in participated_tournaments %}
+                {{ tournament }}
+            {% endfor %}
+
+        {% else %}
+            <h2>You haven't participated in any tournament yet.
+            <a href="{% url 'browse' %}">Browse</a> tournaments to join. </h2>
         {% endif %}
     {% endif %}
 {% endblock %}
