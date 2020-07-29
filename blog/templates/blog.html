@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Gaming Corner - Blog
+{% endblock %}
+
+{% block content %}
+
+    {% for post in object_list %}
+
+        <li><a href="{% url 'blog_detail' post.id %}">{{ post.title }}</a> - {{ post.author }}<br/>
+        {{ post.body }}
+        </li>
+    {% endfor %}
+
+{% endblock %}

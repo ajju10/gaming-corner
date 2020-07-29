@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block content %}
+
     {% if user.is_authenticated %}
 
         <div class="container">
@@ -21,21 +22,29 @@
             </div>
             <br/>
             <div class="row1">
-                <h2>Total Slots</h2>
-                {% if tournament.is_team is not False %}
-                    <h5>{{ tournament.size }} Teams</h5>
+                <h2>Remaining Slots</h2>
+                {% if tournament.is_team is False %}
+                    <h5>{{ tournament.remaining_slots }} Players</h5>
                 {% else %}
-                    <h5>{{ tournament.size }} Players</h5>
+                    <h5>{{ tournament.remaining_slots }} Teams</h5>
                 {% endif %}
             </div>
             <div>
                 <strong>Organized by: {{ tournament.organizer }}</strong>
             </div>
             <br/>
+
+        {% if registered_user != "Error" %}
+            <h3>You have already registered for this tournament. Please contact your organizer
+            for further details about the match.</h3>
+        {% else %}
             <div class="button">
-                <a class="btn btn-outline-success" id="joinButton" href="{% url 'join' tournament.id %}" role="button">Join</a>
+                <a class="btn btn-outline-success" id="joinButton" href="{% url 'join' tournament.id %}"
+                   role="button">Join</a>
             </div>
+        {% endif %}
         </div>
+
     {% else %}
         <h3>You must <a href="{% url 'account_login' %}">Sign In</a> first</h3>
     {% endif %}

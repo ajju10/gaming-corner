@@ -1,17 +1,7 @@
 from django.contrib import admin
-from .models import Tournament, Participant, Team
+from .models import Tournament, Participant
 
 
-class ParticipantAdmin(admin.ModelAdmin):
-    list_display = ['name', 'email', 'tournament']
+admin.site.register(Tournament)
 
-
-class TournamentAdmin(admin.ModelAdmin):
-    list_display = ['name', 'discipline', 'size', 'end_time']
-
-
-admin.site.register(Tournament, TournamentAdmin)
-
-admin.site.register(Participant, ParticipantAdmin)
-
-admin.site.register(Team)
+admin.site.register(Participant)

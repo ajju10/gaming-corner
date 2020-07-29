@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import render, redirect
@@ -16,6 +17,10 @@ def about(request):
     return render(request, 'about.html', {})
 
 
+def contact_us(request):
+    return render(request, 'contact_us.html', {})
+
+
 @login_required
 def organize_new(request):
     if request.method == "POST":
@@ -29,7 +34,7 @@ def organize_new(request):
             return redirect('my_tournaments')
     else:
         form = OrganizeTournamentForm()
-    return render(request, 'organize_new.html', {'form': form, })
+    return render(request, 'organize_new.html', {'form': form})
 
 
 @login_required
@@ -52,36 +57,46 @@ def browse(request):
     query = request.GET.get('q')
     if query:
         try:
-            queryset_list = Tournament.objects.filter(Q(name__icontains=query) | Q(discipline__icontains=query))
+            queryset_list = Tournament.get_planned_tournaments().filter(
+                Q(name__icontains=query) | Q(discipline__icontains=query))
         except Http404 as e:
             print(e)
             queryset_list = "Error"
         return render(request, 'browse.html', {'queryset_list': queryset_list})
     else:
-        tournaments = Tournament.objects.all()
-        return render(request, 'browse.html', {'tournaments': tournaments})
+        joinable_tournaments = Tournament.get_planned_tournaments().all()
+        return render(request, 'browse.html', {'joinable_tournaments': joinable_tournaments})
 
 
 @login_required
 def details(request, tournament_id):
-    tournament = Tournament.objects.get(pk=tournament_id)
-    return render(request, 'details.html', {'tournament': tournament})
+    tournament = Tournament.get_planned_tournaments().get(pk=tournament_id)
+    try:
+        registered_user = tournament.participant.get(email__exact=request.user.email)
+    except Exception as e:
+        print(e)
+        registered_user = "Error"
+    return render(request, 'details.html', {'tournament': tournament, 'registered_user': registered_user})
 
 
 def join_tournament(request, tournament_id):
-    user = request.user
-    tournament = Tournament.objects.get(pk=tournament_id)
+    tournament = Tournament.get_planned_tournaments().get(pk=tournament_id)
+    try:
+        registered_user = tournament.participant.get(email__exact=request.user.email)
+    except Exception as e:
+        print(e)
+        registered_user = "Error"
 
     if request.method == 'POST':
         form = JoinTournamentForm(request.POST or None)
-
         if form.is_valid():
             form.save()
             messages.success(request, 'You have successfully joined this tournament. Please contact your organizer '
                                       'for further match instructions.')
-            return redirect('my_tournaments')
-
+            return redirect('browse')
+        raise ValidationError("Please enter the fields correctly.")
     else:
         form = JoinTournamentForm(initial={'tournament': tournament.id})
-
-    return render(request, 'join_tournament.html', {'user': user, 'tournament': tournament, 'form': form})
+    return render(request, 'join_tournament.html', {'tournament': tournament,
+                                                    'form': form,
+                                                    'registered_user': registered_user})

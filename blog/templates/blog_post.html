@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load social_share %}
+
+{% block title %}
+    Gaming Corner - Blog
+{% endblock %}
+
+{% block content %}
+
+    <h1>{{ blogpost.title }}</h1>
+    <hr>
+
+    <div class="row">
+        {% post_to_facebook object_or_url 'Share on Facebook' %}
+    </div>
+    <br/>
+
+    {{ blogpost.body }}
+    <br/><br/>
+
+{% endblock %}

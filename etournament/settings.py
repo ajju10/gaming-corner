@@ -35,6 +35,7 @@ INSTALLED_APPS = [
 
     # django apps
     'esports',
+    'blog',
 
     # allauth authentication apps
     'allauth',
@@ -42,6 +43,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
+
+    # django-social-share
+    'django_social_share',
 ]
 
 SITE_ID = 1
@@ -119,7 +123,7 @@ WSGI_APPLICATION = 'etournament.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'gamer',
+        'NAME': 'gclocalhost',
         'USER': os.getenv("db_user"),
         'PASSWORD': os.getenv("db_password"),
         'HOST': 'localhost',

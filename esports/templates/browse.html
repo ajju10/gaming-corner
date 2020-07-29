@@ -6,13 +6,15 @@
 {% endblock %}
 
 {% block content %}
-    <form class="form-inline mr-auto" action="{% url 'browse' %}" method="get">
-        <div class="form-group">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search Game" aria-label="Search"
-                   name="q">
-        </div>
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+    {% if joinable_tournaments %}
+        <form class="form-inline mr-auto" action="{% url 'browse' %}" method="get">
+            <div class="form-group">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search Game" aria-label="Search"
+                       name="q">
+            </div>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    {% endif %}
     <br/><br/>
     {% if queryset_list %}
         {% if queryset_list == "Error" %}
@@ -23,33 +25,39 @@
             {% endfor %}
         {% endif %}
     {% else %}
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Discipline</th>
-                <th scope="col">Slots</th>
-                <th scope="col">Details</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for tournament in tournaments %}
+        {% if joinable_tournaments %}
+            <table class="table table-hover">
+                <thead>
                 <tr>
-                    <th scope="row">{{ tournament.name }}</th>
-                    <td>{{ tournament.discipline }}</td>
-                    <td>
-                        {% if tournament.is_team is False %}
-                            {{ tournament.size }} Players
-                        {% else %}
-                            {{ tournament.size }} Teams
-                        {% endif %}
-                    </td>
-                    <td><a href="{% url 'details' tournament.id %}" id="goArrow">
-                        <img src="https://img.icons8.com/fluent/35/000000/right.png" alt="goicon"/>
-                    </a></td>
+                    <th scope="col">Name</th>
+                    <th scope="col">Discipline</th>
+                    <th scope="col">Slots</th>
+                    <th scope="col">Details</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {% for joinable_tournament in joinable_tournaments %}
+                    <tr>
+                        <th scope="row">{{ joinable_tournament.name }}</th>
+                        <td>{{ joinable_tournament.discipline }}</td>
+                        <td>
+                            {% if joinable_tournament.is_team is False %}
+                                {{ joinable_tournament.remaining_slots }}/{{ joinable_tournament.size }} Players
+                            {% else %}
+                                {{ joinable_tournament.remaining_slots }}/{{ joinable_tournament.size }} Teams
+                            {% endif %}
+                        </td>
+                        <td><a href="{% url 'details' joinable_tournament.id %}" id="goArrow">
+                            <img src="https://img.icons8.com/fluent/35/000000/right.png" alt="goicon"/>
+                        </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <h1>There are no tournaments currently running. You can <a href="{% url 'organize_tournament' %}">Organize</a>
+                your own tournament.</h1>
+        {% endif %}
     {% endif %}
 {% endblock %}

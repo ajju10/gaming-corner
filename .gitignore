@@ -1,3 +1,9 @@
 /virtual/
 /.env
 /.vscode/
+/.idea/
+etournament/__pycache__/
+/esports/migrations/__pycache__/
+/esports/__pycache__/
+/blog/__pycache__/
+/functional_tests/__pycache__/
