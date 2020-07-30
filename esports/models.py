@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.core.validators import MaxValueValidator
 from django.db import models
+from django.db.models import Q
 from django.utils.datetime_safe import datetime
 
 User = settings.AUTH_USER_MODEL
@@ -28,11 +29,15 @@ class Tournament(models.Model):
 
     @staticmethod
     def get_ongoing_tournaments():
-        return Tournament.objects.filter(start_time__lt=datetime.now(), end_time__gt=datetime.now())
+        return Tournament.objects.filter(start_time__lt=datetime.now(), end_time__lte=datetime.now())
 
     @staticmethod
     def get_planned_tournaments():
         return Tournament.objects.filter(end_time__gt=datetime.now())
+
+    @staticmethod
+    def past_tournaments():
+        return Tournament.objects.filter(Q(start_time__lt=datetime.now()) & Q(end_time__lt=datetime.now()))
 
     def is_full(self):
         count = Participant.objects.filter(tournament_id=self.id).count()
@@ -53,3 +58,10 @@ class Participant(models.Model):
 
     def __str__(self):
         return f"{self.email}: {self.tournament}"
+    
+    def save(self, *args, **kwargs):
+        if self.tournament.is_full():
+            raise CannotParticipateException("Tournament is already full. Please join other tournaments.")
+        elif self.tournament.end_time < datetime.now():
+            raise CannotParticipateException("Tournament registration has been closed.")
+        super(Participant, self).save(*args, **kwargs)

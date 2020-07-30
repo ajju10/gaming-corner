@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import render, redirect
@@ -32,6 +31,8 @@ def organize_new(request):
             f.save()
             messages.success(request, 'Tournament has been successfully created.')
             return redirect('my_tournaments')
+        else:
+            messages.error(request, 'Form values are invalid. Please enter valid values.')
     else:
         form = OrganizeTournamentForm()
     return render(request, 'organize_new.html', {'form': form})
@@ -71,12 +72,15 @@ def browse(request):
 @login_required
 def details(request, tournament_id):
     tournament = Tournament.get_planned_tournaments().get(pk=tournament_id)
+    participants = tournament.participant.all()
     try:
         registered_user = tournament.participant.get(email__exact=request.user.email)
     except Exception as e:
         print(e)
         registered_user = "Error"
-    return render(request, 'details.html', {'tournament': tournament, 'registered_user': registered_user})
+    return render(request, 'details.html', {'tournament': tournament,
+                                            'registered_user': registered_user,
+                                            'participants': participants})
 
 
 def join_tournament(request, tournament_id):
@@ -94,7 +98,6 @@ def join_tournament(request, tournament_id):
             messages.success(request, 'You have successfully joined this tournament. Please contact your organizer '
                                       'for further match instructions.')
             return redirect('browse')
-        raise ValidationError("Please enter the fields correctly.")
     else:
         form = JoinTournamentForm(initial={'tournament': tournament.id})
     return render(request, 'join_tournament.html', {'tournament': tournament,

@@ -22,6 +22,8 @@
         {% else %}
             {% for i in queryset_list %}
                 <li><a href="{% url 'details' i.id %}">{{ i }}</a></li><br/>
+            {% empty %}
+                <h1>Not Such Tournament Exists</h1>
             {% endfor %}
         {% endif %}
     {% else %}
@@ -37,6 +39,7 @@
                 </thead>
                 <tbody>
                 {% for joinable_tournament in joinable_tournaments %}
+                    {% if not joinable_tournament.remaining_slots == 0 %}
                     <tr>
                         <th scope="row">{{ joinable_tournament.name }}</th>
                         <td>{{ joinable_tournament.discipline }}</td>
@@ -52,6 +55,9 @@
                         </a>
                         </td>
                     </tr>
+                    {% endif %}
+                {% empty %}
+                    <h1>No tournaments are currently open for registration.</h1>
                 {% endfor %}
                 </tbody>
             </table>

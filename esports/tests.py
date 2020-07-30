@@ -1,5 +1,4 @@
 from datetime import *
-from http import HTTPStatus
 from django.contrib.auth.models import User
 from django.test import TestCase
 
@@ -15,10 +14,20 @@ class HomePageTest(TestCase):
         self.assertTemplateUsed(response, 'home.html')
 
 
+class UserAuthenticationTest(TestCase):
+
+    def test_user_signup(self):
+        user = User.objects.create(
+            username='testuser',
+            password='TestUser'
+        )
+        self.assertEqual(user.username, 'testuser')
+        self.assertEqual(user.password, 'TestUser')
+
+
 class TournamentAndParticipantModelsTest(TestCase):
 
     def test_can_add_tournament_and_participant_models(self):
-
         first_tournament = Tournament.objects.create(
             name='This is a fake tournament',
             discipline='Fake PUBG Mobile',
@@ -80,7 +89,6 @@ class TournamentViewTest(TestCase):
         self.assertTemplateUsed(response, 'browse.html')
 
     def test_tournament_search_form(self):
-
         Tournament.objects.create(
             name='This is a fake tournament',
             discipline='Fake PUBG Mobile',
@@ -99,13 +107,54 @@ class TournamentViewTest(TestCase):
             'q': 'fake'
         })
 
-        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(response.status_code, 200)
+
+    def test_tournament_details_view(self):
+        Tournament.objects.create(
+            name='This is a fake tournament',
+            discipline='Fake PUBG Mobile',
+            description='This is not a game at all. This is just for testing purposes.',
+            is_team=False,
+            size=100,
+            organizer=User.objects.create(username='test', password='testuser'),
+            start_time=today,
+            end_time=today + timedelta(days=2)
+        )
+        self.assertEqual(Tournament.objects.count(), 1)
+
+        Participant.objects.create(
+            email='first@xyz.com',
+            tournament=Tournament.objects.first(),
+            name='first',
+            timestamp=today
+        )
+        self.assertEqual(Participant.objects.count(), 1)
+
+        tournament = Tournament.objects.first()
+        participants = tournament.participant.all()
+
+        self.assertIn(Participant.objects.first(), participants)
+
+
+class NewTournamentTest(TestCase):
+
+    def test_can_save_a_new_tournament_POST_request(self):
+        response = self.client.post('/organize/new', data={
+            'name': 'This is a fake tournament',
+            'discipline': 'Fake PUBG Mobile',
+            'description': 'This is not a game at all.',
+            'is_team': False,
+            'size': 100,
+            'organizer': User.objects.create(username='User', password='Password'),
+            'start_time': today,
+            'end_time': today + timedelta(days=2)
+        }, follow=True)
+        self.assertEqual(response.status_code, 200)
 
 
 class NewParticipantTest(TestCase):
 
     def test_can_save_a_new_participant_POST_request(self):
-
         tournament = Tournament.objects.create(
             name='This is a fake tournament',
             discipline='Fake PUBG Mobile',
@@ -119,14 +168,11 @@ class NewParticipantTest(TestCase):
 
         self.assertEqual(Tournament.objects.count(), 1)
 
-        # self.client.post(f"/tournament/join/{tournament.id}", data={
-        #     'email': 'test@test.com',
-        #     'tournament': tournament,
-        #     'name': 'player',
-        #     'timestamp': today
-        # })
-        #
-        # self.assertEqual(Participant.objects.count(), 1)
-        # new_participant = Participant.objects.first()
-        #
-        # self.assertEqual(new_participant.tournament, tournament)
+        response = self.client.post(f"/tournament/join/{tournament.id}", data={
+            'email': 'test@test.com',
+            'tournament': tournament,
+            'name': 'player',
+            'timestamp': today
+        })
+
+        self.assertEqual(response.status_code, 200)

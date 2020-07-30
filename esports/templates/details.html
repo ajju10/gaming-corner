@@ -43,6 +43,17 @@
                    role="button">Join</a>
             </div>
         {% endif %}
+        </div><br/>
+
+        <div class="container participant">
+            <h1>Participants ({{ participants.count }})</h1>
+            {% for participant in participants %}
+                <ul>
+                    <li>{{ participant.name }}</li>
+                </ul>
+            {% empty %}
+                <h3>This tournament has no participants yet.</h3>
+            {% endfor %}
         </div>
 
     {% else %}
