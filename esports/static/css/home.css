@@ -1,12 +1,17 @@
-header.masthead {
-    background-image: url("/esports/static/images/big-pubg.jpg");
+.masthead {
+    align-items: center;
+    background: no-repeat center center;
+    background-size: cover;
 }
 
-#homeImage {
-    max-width: 100%;
-    height: auto;
+.home-head {
+    text-align: center;
+    margin-top: 20px;
 }
 
-#homeBrowseButton {
-    margin-left: 47.5%;
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
 }

@@ -46,7 +46,7 @@
     </script>
 
 </head>
-<body id="baseBody">
+<body class="base-body">
 
 <nav class="navbar navbar-dark bg-dark navbar-expand-md navigation-clean-button">
     <div class="container"><a class="navbar-brand" href="{% url 'home' %}">GamingCorner</a>
@@ -99,8 +99,8 @@
     {% endblock %}
 </div>
 
-<div class="footer-basic fixed-bottom">
-    <footer>
+<div class="footer-basic">
+    <footer class="text-white">
         <div class="social-media-icons">
             <a href="#" class="fa fa-facebook"></a>
             <a href="#" class="fa fa-instagram"></a>
@@ -128,7 +128,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
-<script src="{% static 'js/details.js' %}"></script>
 <script src="{% static 'js/base.js' %}"></script>
 </body>
 </html>
