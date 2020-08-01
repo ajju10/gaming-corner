@@ -1,5 +1,6 @@
 from datetime import *
 from django.contrib.auth.models import User
+from django.core import mail
 from django.test import TestCase
 
 from .models import Tournament, Participant
@@ -176,3 +177,13 @@ class NewParticipantTest(TestCase):
         })
 
         self.assertEqual(response.status_code, 200)
+
+
+class SendEmailTest(TestCase):
+
+    def test_can_send_an_email(self):
+        mail.send_mail('Test subject', 'Test message', 'from@example.com', ['to@example.com'])
+
+        self.assertEqual(len(mail.outbox), 1)
+
+        self.assertEqual(mail.outbox[0].subject, 'Test subject')

@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import render, redirect
@@ -95,6 +96,12 @@ def join_tournament(request, tournament_id):
         form = JoinTournamentForm(request.POST or None)
         if form.is_valid():
             form.save()
+            send_mail(
+                subject="This is a test email",
+                message="Thank you for joining this tournament.",
+                from_email="no-reply@gamingcorner.tech",
+                recipient_list=[request.user.email]
+            )
             messages.success(request, 'You have successfully joined this tournament. Please contact your organizer '
                                       'for further match instructions.')
             return redirect('browse')

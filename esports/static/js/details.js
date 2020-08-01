@@ -1,1 +1,0 @@
-let joinButton = document.getElementById("joinButton");

@@ -3,6 +3,6 @@ from django.test import TestCase
 
 class BlogPostTest(TestCase):
 
-    def blog_post_page_resolves(self):
+    def test_blog_post_page_uses_template(self):
         response = self.client.get('/blog')
-        self.assertTemplateUsed(response, 'blog.html')
+        self.assertTrue(response.status_code, 200)

@@ -73,7 +73,7 @@
                 </div>
             {% else %}
                 <span class="navbar-text actions">
-                    <a class="btn btn-outline-success" role="button" href="{% url 'account_login' %}">Sign In</a>
+                    <a class="btn btn-outline-success" id="signinButton" role="button" href="{% url 'account_login' %}">Sign In</a>
                 </span>
             {% endif %}
         </div>
@@ -99,7 +99,7 @@
     {% endblock %}
 </div>
 
-<div class="footer-basic">
+<div class="footer-basic fixed-bottom">
     <footer>
         <div class="social-media-icons">
             <a href="#" class="fa fa-facebook"></a>

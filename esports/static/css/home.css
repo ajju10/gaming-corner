@@ -1,3 +1,7 @@
+header.masthead {
+    background-image: url("/esports/static/images/big-pubg.jpg");
+}
+
 #homeImage {
     max-width: 100%;
     height: auto;
