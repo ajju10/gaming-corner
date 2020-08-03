@@ -7,6 +7,7 @@
 {% block content %}
 
     <form class="contact-us-form" method="post">
+        {% csrf_token %}
         <div class="form-group"><label for="name">Your Name</label><input class="form-control item" type="text"
                                                                           id="name"/></div>
         <div class="form-group"><label for="subject">Subject</label><input class="form-control item" type="text"
