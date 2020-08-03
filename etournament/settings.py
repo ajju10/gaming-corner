@@ -18,7 +18,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '*h*=rf(wh_g-xod_^9ija)iws#$@cj&q8)@4g&h^nx(!+3xw61'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -91,11 +91,11 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
-# SECURE_PROXY_SSL_HEADER = (
-#     'HTTP_X_FORWARDED_PROTO', 'https'
-# )
+SECURE_PROXY_SSL_HEADER = (
+    'HTTP_X_FORWARDED_PROTO', 'https'
+)
 
-# SECURE_SSL_REDIRECT = False
+SECURE_SSL_REDIRECT = True
 
 ROOT_URLCONF = 'etournament.urls'
 
@@ -165,7 +165,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = False
+USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/

@@ -7,9 +7,11 @@
 {% block content %}
 
     {% for post in object_list %}
-        <li><a href="{% url 'blog_detail' post.id %}">{{ post.title }}</a> - {{ post.author }}<br/>
+        <li><a href="{% url 'blog_detail' post.id %}">{{ post.title }}</a> - {{ post.author }}<br/><br/>
         {{ post.body }}
         </li>
+    {% empty %}
+        <h1>No blog posts exists as of now.</h1>
     {% endfor %}
 
 {% endblock %}
