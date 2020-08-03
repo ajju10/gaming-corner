@@ -47,74 +47,80 @@
 
 </head>
 <body class="base-body">
-
-<nav class="navbar navbar-dark bg-dark navbar-expand-md navigation-clean-button">
-    <div class="container"><a class="navbar-brand" href="{% url 'home' %}">GamingCorner</a>
-        <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
-                class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse"
-             id="navcol-1">
-            <ul class="nav navbar-nav mr-auto">
-                <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'browse' %}">Browse</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'organize_tournament' %}">Organize</a>
-                </li>
-            </ul>
-            {% if user.is_authenticated %}
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{ user.username }}
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" id="profileButton" href="#">Profile (Locked in Beta)</a>
-                        <a class="dropdown-item" href="{% url 'my_tournaments' %}">My Tournaments</a>
-                        <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
-                    </div>
-                </div>
-            {% else %}
-                <span class="navbar-text actions">
+<div class="page-container">
+    <div class="content-wrap">
+        <nav class="navbar navbar-dark bg-dark navbar-expand-md navigation-clean-button">
+            <div class="container"><a class="navbar-brand" href="{% url 'home' %}">GamingCorner</a>
+                <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
+                        class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse"
+                     id="navcol-1">
+                    <ul class="nav navbar-nav mr-auto">
+                        <li class="nav-item" role="presentation"><a class="nav-link"
+                                                                    href="{% url 'browse' %}">Browse</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link"
+                                                                    href="{% url 'organize_tournament' %}">Organize</a>
+                        </li>
+                    </ul>
+                    {% if user.is_authenticated %}
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ user.username }}
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" id="profileButton" href="#">Profile (Locked in Beta)</a>
+                                <a class="dropdown-item" href="{% url 'my_tournaments' %}">My Tournaments</a>
+                                <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <span class="navbar-text actions">
                     <a class="btn btn-outline-success" id="signinButton" role="button" href="{% url 'account_login' %}">Sign In</a>
                 </span>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+        <div class="overlay"></div>
+        <div class="container">
+            <br/>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-danger alert-dismissable" role="alert">
+                        <button class="close" data-dismiss="alert">
+                            <small><sup>X</sup></small>
+                        </button>
+                        {{ message }}
+                    </div><br/>
+                {% endfor %}
             {% endif %}
+
+            {% block content %}
+
+            {% endblock %}
         </div>
     </div>
-</nav>
-<div class="overlay"></div>
-<div class="container">
-    <br/>
 
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-danger alert-dismissable" role="alert">
-                <button class="close" data-dismiss="alert">
-                    <small><sup>X</sup></small>
-                </button>
-                {{ message }}
-            </div><br/>
-        {% endfor %}
-    {% endif %}
-
-    {% block content %}
-
-    {% endblock %}
-</div>
-
-<div class="footer-basic">
-    <footer class="text-white">
-        <div class="social-media-icons">
-            <a href="#" class="fa fa-facebook"></a>
-            <a href="#" class="fa fa-instagram"></a>
-            <a href="#" class="fa fa-twitter"></a>
-        </div>
-        <ul class="list-inline">
-            <li class="list-inline-item"><a href="{% url 'blog_home' %}">Blog</a></li>
-            <li class="list-inline-item"><a href="{% url 'contact_us' %}">Contact Us</a></li>
-            <li class="list-inline-item"><a href="{% url 'about' %}">About</a></li>
-            <li class="list-inline-item"><a href="#">Terms</a></li>
-            <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
-        </ul><br/>
-        <p class="copyright">Gaming Corner © 2020</p>
-    </footer>
+    <div class="footer-basic">
+        <footer id="baseFooter" class="text-white">
+            <div class="social-media-icons">
+                <a href="#" class="fa fa-facebook"></a>
+                <a href="#" class="fa fa-instagram"></a>
+                <a href="#" class="fa fa-twitter"></a>
+            </div>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="{% url 'blog_home' %}">Blog</a></li>
+                <li class="list-inline-item"><a href="{% url 'contact_us' %}">Contact Us</a></li>
+                <li class="list-inline-item"><a href="{% url 'about' %}">About</a></li>
+                <li class="list-inline-item"><a href="#">Terms</a></li>
+                <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+            </ul>
+            <br/>
+            <p class="copyright">Gaming Corner © 2020</p>
+        </footer>
+    </div>
 </div>
 
 <!-- Optional JavaScript -->
