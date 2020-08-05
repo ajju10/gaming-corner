@@ -9,7 +9,7 @@
     {% if joinable_tournaments %}
         <form class="form-inline mr-auto" action="{% url 'browse' %}" method="get">
             <div class="form-group">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search Game" aria-label="Search"
+                <input class="form-control mr-sm-2 search-box" type="search" placeholder="Search Game" aria-label="Search"
                        name="q">
             </div>
             <button class="btn btn-outline-success my-2 my-sm-0 search-button" type="submit">Search</button>
@@ -52,8 +52,7 @@
                         </td>
                         <td><a href="{% url 'details' joinable_tournament.id %}" id="goArrow">
                             <img src="{% static 'images/right.png' %}" alt="goicon"/>
-                        </a>
-                        </td>
+                        </a></td>
                     </tr>
                     {% endif %}
                 {% empty %}
