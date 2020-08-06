@@ -1,11 +1,13 @@
-from datetime import *
+from datetime import timedelta
+
 from django.contrib.auth.models import User
 from django.core import mail
 from django.test import TestCase
+from django.utils import timezone
 
 from .models import Tournament, Participant
 
-today = datetime.now()
+today = timezone.now()
 
 
 class HomePageTest(TestCase):
@@ -56,6 +58,9 @@ class TournamentAndParticipantModelsTest(TestCase):
 
         self.assertEqual(first_tournament.size, 100)
         self.assertEqual(second_tournament.size, 25)
+
+        self.assertEqual(Tournament.get_planned_tournaments().count(), 2)
+        self.assertEqual(Tournament.get_ongoing_tournaments().count(), 0)
 
         first_player = Participant.objects.create(
             email='first@xyz.com',
