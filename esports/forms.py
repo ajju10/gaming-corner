@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from django.utils.datetime_safe import datetime
+from django.utils import timezone
 
 from .models import Tournament, Participant
 
@@ -28,7 +28,7 @@ class OrganizeTournamentForm(forms.ModelForm):
     def clean_end_time(self):
         end_time = self.cleaned_data['end_time']
 
-        if end_time <= datetime.now():
+        if end_time <= timezone.now():
             raise ValidationError('Time should be in the future.')
         return end_time
 

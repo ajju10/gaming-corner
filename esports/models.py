@@ -11,6 +11,10 @@ class CannotParticipateException(Exception):
     pass
 
 
+class CannotCreateTournamentException(Exception):
+    pass
+
+
 class Tournament(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -48,6 +52,11 @@ class Tournament(models.Model):
             return True
         return False
 
+    def save(self, *args, **kwargs):
+        if self.end_time <= timezone.now():
+            raise CannotCreateTournamentException('The registration closing date should be in the future.')
+        super(Tournament, self).save(*args, **kwargs)
+
 
 class Participant(models.Model):
     email = models.EmailField(max_length=100)
@@ -64,6 +73,6 @@ class Participant(models.Model):
     def save(self, *args, **kwargs):
         if self.tournament.is_full():
             raise CannotParticipateException("Tournament is already full. Please join other tournaments.")
-        elif self.tournament.end_time < timezone.now():
+        elif self.tournament.end_time <= timezone.now():
             raise CannotParticipateException("Tournament registration has been closed.")
         super(Participant, self).save(*args, **kwargs)

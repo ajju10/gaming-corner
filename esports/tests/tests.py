@@ -1,11 +1,11 @@
 from datetime import timedelta
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core import mail
 from django.test import TestCase
 from django.utils import timezone
 
-from .models import Tournament, Participant
+from esports.models import Tournament, Participant
 
 today = timezone.now()
 
@@ -20,9 +20,9 @@ class HomePageTest(TestCase):
 class UserAuthenticationTest(TestCase):
 
     def test_user_signup(self):
-        user = User.objects.create(
-            username='testuser',
-            password='TestUser'
+        user = get_user_model().objects.create(
+                username='testuser',
+                password='TestUser'
         )
         self.assertEqual(user.username, 'testuser')
         self.assertEqual(user.password, 'TestUser')
@@ -37,7 +37,7 @@ class TournamentAndParticipantModelsTest(TestCase):
             description='This is not a game at all. This is just for testing purposes.',
             is_team=False,
             size=100,
-            organizer=User.objects.create(username='test', password='testuser'),
+            organizer=get_user_model().objects.create(username='test', password='testuser'),
             start_time=today,
             end_time=today + timedelta(days=2)
         )
@@ -48,7 +48,7 @@ class TournamentAndParticipantModelsTest(TestCase):
             description='This is not a game at all. This is just for unit testing purposes.',
             is_team=True,
             size=25,
-            organizer=User.objects.create(username='test1', password='testuser1'),
+            organizer=get_user_model().objects.create(username='test1', password='testuser1'),
             start_time=today,
             end_time=today + timedelta(days=2)
         )
@@ -101,7 +101,7 @@ class TournamentViewTest(TestCase):
             description='This is not a game at all. This is just for testing purposes.',
             is_team=False,
             size=100,
-            organizer=User.objects.create(username='test', password='testuser'),
+            organizer=get_user_model().objects.create(username='test', password='testuser'),
             start_time=today,
             end_time=today + timedelta(days=2)
         )
@@ -122,7 +122,7 @@ class TournamentViewTest(TestCase):
             description='This is not a game at all. This is just for testing purposes.',
             is_team=False,
             size=100,
-            organizer=User.objects.create(username='test', password='testuser'),
+            organizer=get_user_model().objects.create(username='test', password='testuser'),
             start_time=today,
             end_time=today + timedelta(days=2)
         )
@@ -151,7 +151,7 @@ class NewTournamentTest(TestCase):
             'description': 'This is not a game at all.',
             'is_team': False,
             'size': 100,
-            'organizer': User.objects.create(username='User', password='Password'),
+            'organizer': get_user_model().objects.create(username='User', password='Password'),
             'start_time': today,
             'end_time': today + timedelta(days=2)
         }, follow=True)
@@ -167,7 +167,7 @@ class NewParticipantTest(TestCase):
             description='This is not a game at all. This is just for testing purposes.',
             is_team=False,
             size=100,
-            organizer=User.objects.create(username='testparticipant', password='testuser'),
+            organizer=get_user_model().objects.create(username='testparticipant', password='testuser'),
             start_time=today,
             end_time=today + timedelta(days=2)
         )
@@ -182,6 +182,28 @@ class NewParticipantTest(TestCase):
         })
 
         self.assertEqual(response.status_code, 200)
+
+    def test_user_cannot_register_in_a_tournament_twice(self):
+        tournament = Tournament.objects.create(
+            name='This is a fake tournament',
+            discipline='Fake PUBG Mobile',
+            description='This is not a game at all. This is just for testing purposes.',
+            is_team=False,
+            size=100,
+            organizer=get_user_model().objects.create(username='testparticipant', password='testuser'),
+            start_time=today,
+            end_time=today + timedelta(days=2)
+        )
+
+        p1 = Participant.objects.create(
+            email='test@test.com',
+            tournament=tournament,
+            name='admin'
+        )
+
+        self.assertEqual(Participant.objects.count(), 1)
+        self.assertEqual(p1.tournament, tournament)
+        # Complete this test
 
 
 class SendEmailTest(TestCase):

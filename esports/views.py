@@ -89,19 +89,18 @@ def join_tournament(request, tournament_id):
     try:
         registered_user = tournament.participant.get(email__exact=request.user.email)
     except Exception as e:
-        print(e)
         registered_user = "Error"
 
     if request.method == 'POST':
         form = JoinTournamentForm(request.POST or None)
         if form.is_valid():
             form.save()
-            send_mail(
-                subject="This is a test email",
-                message="Thank you for joining this tournament.",
-                from_email="no-reply@gamingcorner.tech",
-                recipient_list=[request.user.email]
-            )
+            # send_mail(
+            #     subject="This is a test email",
+            #     message="Thank you for joining this tournament.",
+            #     from_email="no-reply@gamingcorner.tech",
+            #     recipient_list=[request.user.email]
+            # )
             messages.success(request, 'You have successfully joined this tournament. Please contact your organizer '
                                       'for further match instructions.')
             return redirect('browse')
