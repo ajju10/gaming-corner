@@ -89,7 +89,6 @@ def join_tournament(request, tournament_id):
     try:
         registered_user = tournament.participant.get(email__exact=request.user.email)
     except Exception as e:
-        print(e)
         registered_user = "Error"
 
     if request.method == 'POST':

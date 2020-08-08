@@ -64,6 +64,8 @@ ACCOUNT_SESSION_REMEMBER = True
 
 ACCOUNT_UNIQUE_EMAIL = True
 
+DEFAULT_FROM_EMAIL = "no-reply@gamingcorner.tech"
+
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'

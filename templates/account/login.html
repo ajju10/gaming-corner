@@ -42,14 +42,14 @@
                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
             {% endif %}
             <div class="form-group">
-                <button class="btn btn-outline-success" type="submit">Sign In</button>
+                <button class="btn btn-outline-success signin-button" type="submit">Sign In</button>
             </div>
             <a class="forgot" href="{% url 'account_reset_password' %}">Forgot Password?</a>
         </form>
         <br/>
 
-        <h5>{% blocktrans %}New to Gaming Corner? <a href="{{ signup_url }}">Sign Up
-        </a> to continue.{% endblocktrans %}</h5>
+        <h5>{% blocktrans %}
+            New to Gaming Corner? <a href="{{ signup_url }}">Sign Up</a> to continue.
+        {% endblocktrans %}</h5>
     </div>
-
 {% endblock %}
