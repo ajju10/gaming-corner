@@ -6,18 +6,30 @@
 
 {% block content %}
 
-    <form class="contact-us-form" method="post">
+    {% if message_name %}
+        <h2>Thank you {{ message_name }} for contacting us. We will get in touch with you soon.</h2>
+    {% endif %}
+
+    <form class="contact-us-form" method="post" action="{% url 'contact_us' %}">
         {% csrf_token %}
-        <div class="form-group"><label for="name">Your Name</label><input class="form-control item" type="text"
-                                                                          id="name"/></div>
-        <div class="form-group"><label for="subject">Subject</label><input class="form-control item" type="text"
-                                                                           id="subject"/></div>
-        <div class="form-group"><label for="email">Email</label><input class="form-control item" type="email"
-                                                                       id="email"/></div>
-        <div class="form-group"><label for="message">Message</label><textarea class="form-control item"
-                                                                              id="message"></textarea></div>
         <div class="form-group">
-            <button class="btn btn-primary btn-block btn-lg" type="submit">Submit Form</button>
+            <label for="name">Your Name</label>
+            <input class="form-control item" name="message_name" type="text" id="name" required/>
+        </div>
+        <div class="form-group">
+            <label for="subject">Subject</label>
+            <input class="form-control item" name="message_subject" type="text" id="subject" required/>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input class="form-control item" name="message_email" type="email" id="email" required/>
+        </div>
+        <div class="form-group">
+            <label for="message">Message</label>
+            <textarea class="form-control item" name="message" id="message" required></textarea>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-outline-success" type="submit">Submit Form</button>
         </div>
     </form>
 

@@ -2,6 +2,15 @@ from django.contrib import admin
 from .models import Tournament, Participant
 
 
-admin.site.register(Tournament)
+class TournamentAdmin(admin.ModelAdmin):
+    list_display = ['name', 'organizer', 'size', 'is_team']
+    list_filter = ['discipline', 'is_team', 'organizer']
 
-admin.site.register(Participant)
+
+class ParticipantAdmin(admin.ModelAdmin):
+    list_display = ['name', 'email', 'tournament']
+    list_filter = ['tournament']
+
+
+admin.site.register(Tournament, TournamentAdmin)
+admin.site.register(Participant, ParticipantAdmin)

@@ -1,6 +1,7 @@
 {% extends 'account/base.html' %}
 {% load static %}
 {% load account socialaccount %}
+{% providers_media_js %}
 {% load i18n %}
 
 {% block title %}
@@ -13,19 +14,20 @@
 
         {% get_providers as socialaccount_providers %}
 
-        {% if socialaccount_providers %}
-            <h3>Please sign in with one of your third-party social account</h3>
-            <br/>
-            <div class="socialaccount_ballot">
-                <ul class="socialaccount_providers">
-                    <li id="google_login"><a href="#">Google (Locked in Beta)</a></li>
-                    <li id="facebook_login"><a href="#">Facebook (Locked in Beta)</a></li>
-                </ul>
-            </div>
-        {% endif %}
+{#        {% if socialaccount_providers %}#}
+{#            <h3>Please sign in with one of your third-party social account</h3>#}
+{#            <br/>#}
+{#            <div class="socialaccount_ballot">#}
+{#                <ul class="socialaccount_providers">#}
+{#                    <li id="google_login"><a href="#">Google (Locked in Beta)</a></li>#}
+{#                    <li id="facebook_login"><a href="#">Facebook (Locked in Beta)</a></li>#}
+{#                </ul>#}
+{#            </div>#}
+{#        {% endif %}#}
 
-        <h6>{% trans 'or' %}</h6>
+{#        <h6>{% trans 'or' %}</h6>#}
 
+        <h2 style="text-align: center"><strong>Sign In</strong></h2>
         <form method="post" action="{% url 'account_login' %}">
             {% csrf_token %}
             <h2 class="sr-only">Login Form</h2>

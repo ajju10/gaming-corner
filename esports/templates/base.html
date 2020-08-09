@@ -56,10 +56,10 @@
                 <div class="collapse navbar-collapse"
                      id="navcol-1">
                     <ul class="nav navbar-nav mr-auto">
-                        <li class="nav-item" role="presentation"><a class="nav-link"
-                                                                    href="{% url 'browse' %}">Browse</a></li>
-                        <li class="nav-item" role="presentation"><a class="nav-link"
-                                                                    href="{% url 'organize_tournament' %}">Organize</a>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" href="{% url 'browse' %}">Browse</a></li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" href="{% url 'organize_tournament' %}">Organize</a>
                         </li>
                     </ul>
                     {% if user.is_authenticated %}
@@ -69,14 +69,16 @@
                                 {{ user.username }}
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" id="profileButton" href="#">Profile (Locked in Beta)</a>
+                                <a class="dropdown-item" id="profileButton" href="#">Profile (Coming Soon)</a>
                                 <a class="dropdown-item" href="{% url 'my_tournaments' %}">My Tournaments</a>
                                 <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
                             </div>
                         </div>
                     {% else %}
                         <span class="navbar-text actions">
-                    <a class="btn btn-outline-success" id="signinButton" role="button" href="{% url 'account_login' %}">Sign In</a>
+                    <a class="btn btn-outline-success" id="signinButton" role="button" href="{% url 'account_login' %}">
+                        Sign In
+                    </a>
                 </span>
                     {% endif %}
                 </div>
@@ -107,12 +109,12 @@
         <footer id="baseFooter" class="text-white">
             <div class="social-media-icons">
                 <a href="#" class="fa fa-facebook"></a>
-                <a href="#" class="fa fa-instagram"></a>
+                <a href="https://www.instagram.com/gaming_corner_tech/" class="fa fa-instagram"></a>
                 <a href="#" class="fa fa-twitter"></a>
             </div>
             <ul class="list-inline">
                 <li class="list-inline-item"><a href="{% url 'blog_home' %}">Blog</a></li>
-                <li class="list-inline-item"><a href="#">Contact Us</a></li>
+                <li class="list-inline-item"><a href="{% url 'contact_us' %}">Contact Us</a></li>
                 <li class="list-inline-item"><a href="{% url 'about' %}">About</a></li>
                 <li class="list-inline-item"><a href="#">Terms</a></li>
                 <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
