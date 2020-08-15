@@ -18,24 +18,7 @@ def about(request):
 
 
 def contact_us(request):
-    if request.method == 'POST':
-        message_name = request.POST['message_name'],
-        message_subject = request.POST['message_subject'],
-        message_email = request.POST['message_email'],
-        message = request.POST['message']
-
-        # Send an email
-        send_mail(
-            subject= message_subject, # Subject
-            message= message, # Message
-            from_email= message_email, # From email
-            recipient_list= ['gamingcorner50@gmail.com'] # To email
-        )
-
-        messages.success(request, "We have recieved your message. We will be in touch with you shortly.")
-        return render(request, 'contact_us.html', {'message_name': message_name})
-    else:
-        return render(request, 'contact_us.html', {})
+    return render(request, 'contact_us.html', {})
 
 
 @login_required
